@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Bleunuit</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+		<link rel="stylesheet" href="css/fonts.css">
+		<link rel="stylesheet" href="css/style.css">
+	</head>
+
+	<body>
+		<div class="loading" style="--bg:#000000; --progress: 0;">
+			<div class="windowLogo">
+				<h1 class="logo centered">Bleunuit</h1>
+			</div>
+			<div class="progressBar">
+				<div class="bar"></div>
+			</div>
+		</div>
+		<div class="border">
+			<div class="top"></div>
+			<div class="left"></div>
+			<div class="bottom"></div>
+			<div class="right"></div>
+		</div>
+		<canvas id="c3d"></canvas>
+		<header class="container-fluid">
+			<div class="row">
+				<div class="d-flex flex-row flex-wrap w-100 justify-content-between">
+					<a href="#"><h1 class="logo">Bleunuit</h1></a>
+					<nav>
+						<ul class="d-flex flex-row flex-wrap">
+							<li>
+								<a href="">About</a>
+							</li>
+							<li>
+								<a href="">Work</a>
+							</li>
+							<li>
+								<a href="">Contact</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</header>
+		<main class="">
+			<div class="container-fluid">
+				<div class="row navWorks align-items-center justify-content-center text-center">
+					<div class="col-12">
+						<div class="background"></div>
+						<div class="worksItem running w-100 d-flex flex-row flex-wrap">
+							<div class="col-12 text-center title" style="--clipping: inset(0% 100% 0% 0%);">
+								<h2 title="Dadju" id="lele">Dadju</h2>
+							</div>
+							<div class="col-12 text-center describe">
+								<span>Sumin + Zion.T - 'Dirty Love'</span>
+							</div>
+						</div>
+						<div class="worksItem running w-100 d-flex flex-row flex-wrap">
+							<div class="col-12 text-center title" style="--clipping: inset(0% 0% 0% 0%);">
+								<h2 title="Swing" id="lele">Swing</h2>
+							</div>
+							<div class="col-12 text-center describe">
+								<span>Sumin + Zion.T - 'Dirty Love'</span>
+							</div>
+						</div>
+						<div class="worksItem running w-100 d-flex flex-row flex-wrap">
+							<div class="col-12 text-center title" style="--clipping: inset(0% 100% 0% 0%);">
+								<h2 title="Twasen" id="lele">Twasen</h2>
+							</div>
+							<div class="col-12 text-center describe">
+								<span>Sumin + Zion.T - 'Dirty Love'</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer></footer>
+		<canvas id="c-cursor"></canvas>
+		<script src="/js/vendor/three.min.js"></script>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/dev/examples/js/shaders/CopyShader.js"></script>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/dev/examples/js/postprocessing/EffectComposer.js"></script>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/dev/examples/js/postprocessing/ShaderPass.js"></script>
+		<script src="https://cdn.rawgit.com/mrdoob/three.js/dev/examples/js/postprocessing/RenderPass.js"></script>
+		<script id="vertexShader" type="x-shader/x-vertex">
+			varying vec2 vUv;
+			void main() {
+				vUv = uv;
+				gl_Position = projectionMatrix 
+				* modelViewMatrix 
+				* vec4( position, 1.0 );
+			}
+		</script>
+
+		<script id="fragmentShader" type="x-shader/x-fragment">
+			uniform float amount;
+			uniform sampler2D tDiffuse;
+			varying vec2 vUv;
+
+			float random( vec2 p )
+			{
+				vec2 K1 = vec2(
+					23.14069263277926, // e^pi^sqrt (Gelfond's constant)
+					2.665144142690225 // 2^sqrt(2) (Gelfondâ€“Schneider constant)
+				);
+				return fract( cos( dot(p,K1) ) * 123456.789);
+			}
+
+			void main() {
+
+				vec4 color = texture2D( tDiffuse, vUv );
+				vec2 uvRandom = vUv;
+				uvRandom.y *= random(vec2(uvRandom.y,amount));
+				uvRandom.x *= random(vec2(uvRandom.x,amount));
+				color.rgb += random(uvRandom) * 0.15;
+				gl_FragColor = vec4( color );
+			}
+		</script>
+
+		<script id="vertexShader2" type="x-shader/x-vertex">
+			uniform vec3 viewVector;
+			uniform float c;
+			uniform float p;
+			varying float intensity;
+			void main() 
+			{
+				vec3 vNormal = normalize( normalMatrix * normal );
+				vec3 vNormel = normalize( normalMatrix * viewVector );
+				intensity = pow( c - dot(vNormal, vNormel), p );
+				
+				gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+			}
+		</script>
+
+		<script id="fragmentShader2" type="x-shader/x-vertex">
+			uniform vec3 glowColor;
+			varying float intensity;
+			void main() 
+			{
+				vec3 glow = glowColor * intensity;
+				gl_FragColor = vec4( glow, 1.0 );
+			}
+		</script>
+
+		<script src="js/vendor/gsap.js"></script>
+		<script src="js/simplex.mjs" type="application/javascript"></script>
+		<script src="js/script.mjs" type="application/javascript"></script>
+	</body>
+
+</html>

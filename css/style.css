@@ -1,0 +1,365 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/**/
+
+canvas {
+	width: calc(100%) !important;
+	height: calc(100%) !important;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	opacity: 0;
+	pointer-events: none;
+}
+
+#c-cursor {
+	z-index: 1;
+}
+
+html {
+	min-height: 100vh;
+}
+
+body {
+	min-height: 100vh;
+	background-color: #ffffff;
+}
+
+* {
+	font-family: 'Suisse Intl', sans-serif;
+    font-weight: bold;
+	font-style: normal;
+	cursor: none !important;
+}
+
+*:hover {
+	cursor: none !important;
+}
+
+body > header {
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding:62px 41px 0 !important;
+	z-index: 1;
+	/*mix-blend-mode: difference;*/
+}
+
+h1.logo {
+	background-image: url(../src/img/logo_bleunuit.svg);
+	background-size: 100%;
+	background-repeat: no-repeat;
+	width:178px;
+	height: 25px;
+	font-size: 0;
+	filter: invert(0);
+	transition: all 0.2s 0s linear;
+	padding: 30px;
+	filter: invert(1);
+	
+}
+
+nav li a{
+	text-transform: uppercase;
+	font-family: 'Suisse Intl', sans-serif;
+	font-weight: bold;
+	font-size: 18px;
+	color: white;
+	padding:15px 30px;
+	mix-blend-mode: normal;
+}
+
+nav li a:hover{
+	text-decoration: none;
+	color: white;
+}
+
+main {
+	min-height: 100vh;
+}
+
+.navWorks {
+	height: 100vh;
+	overflow-y: hidden;
+}
+
+.navWorks .worksItem{
+	color: white;
+	padding: 40px 0 60px;
+	cursor: pointer;
+	position: relative;
+}
+
+.navWorks .background {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%, -50%, 0);
+	width: 80%;
+	height: 300px;
+}
+
+.navWorks .background svg{
+	width: 100%;
+	height: 100%;
+}
+
+.navWorks {
+	counter-reset: count;
+}
+
+.navWorks .worksItem {
+	counter-increment: count;
+	height: 300px;
+}
+
+.navWorks .worksItem h2:before {
+	content:counter(count, decimal-leading-zero);
+	font-size: 30px;
+	position: absolute;
+	top: 0%;
+	transform: translate3d(-120%, 0%, 0);
+	color: white;
+}
+
+.navWorks .worksItem h2 {
+	position: relative;
+	text-transform: uppercase;
+	font-size: 180px;
+	color: transparent;
+	-webkit-text-stroke-width: 1px;
+	-webkit-text-stroke-color: white;
+	transition: color 0.2s 0s linear;
+	margin: 0;
+	padding: 0;
+	line-height: 0.78;
+}
+
+.navWorks .worksItem h2:after {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translate3d(-50%, 0, 0);
+	overflow: hidden;
+	color: white;
+	content: attr(title);
+	font-size: 180px;
+	height: 100%;
+	display: block;
+	width: 100%;
+	clip-path: var(--clipping);
+}
+
+.navWorks .worksItem.active h2 {
+	text-transform: uppercase;
+	font-size: 180px;
+	/*color: white;*/
+}
+
+.navWorks .worksItem .describe {
+	overflow:hidden;
+}
+
+.navWorks .worksItem span {
+	display: inline-block;
+	opacity: 0;
+	transform: translate3d(0, -100%, 0);
+	text-transform: uppercase;
+	font-size: 40px;
+	transition: all 0.2s 0s linear;
+}
+
+.navWorks .worksItem.active span {
+	opacity: 1;
+	transform: translate3d(0, 0%, 0);
+}
+
+.loading {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: var(--bg);
+	z-index: 9;
+	opacity: 1;
+	visibility: visible;
+	display:flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+}
+
+.loading .text {
+	position: absolute;
+	bottom: 30px;
+	left: 50%;
+	transform: translate3d(-50%, 0%, 0);
+	font-size: 20px;
+	color: white;
+	/*mix-blend-mode: difference;*/
+	opacity: 0.4;
+	font-family: 'Suisse Intl', sans-serif;
+    font-weight: normal;
+    font-style: normal;
+}
+
+.progressBar{
+	position: absolute;
+	bottom: 15px;
+	right: 15px;
+	transform: translate3d( 0, 0%, 0);
+	width: calc(100% - 30px);
+	height: 1px !important;
+	background-color: rgba(120,120,120,0.2);
+}
+
+.bar {
+	content:'';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #0000ff;
+	z-index: 0;
+	transform-origin: 0 0;
+	transform: scaleX(var(--progress));
+}
+
+.windowLogo {
+	overflow: hidden;
+	width: 178px;
+	height: 25px;
+	position: relative;
+	z-index: 1;
+}
+
+.loading .logo {
+	opacity: 0;
+	transform: translate3d(0, 100%, 0);
+	animation: show 1s 0.5s ease-in-out forwards;
+}
+
+.border {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 8;
+	display: none;
+}
+
+.border .top, .border .left, .border .bottom, .border .right {
+	position: fixed;
+	background-color: white;
+}
+
+.border .top {
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 15px;
+}
+
+.border .left {
+	top: 0;
+	left: 0;
+	width: 15px;
+	height: 100%;
+}
+
+.border .right {
+	top: 0;
+	right: 0;
+	width: 15px;
+	height: 100%;
+}
+
+.border .bottom {
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 15px;
+}
+
+@keyframes show {
+	0% {
+		opacity: 0;
+		transform: translate3d(0, 100%, 0);
+	}
+	100% {
+		opacity: 1;
+		transform: translate3d(0, 0%, 0);
+	}
+}
+
+.worksItem.running {
+	opacity: 0;
+	animation: fadeInUp 0.2s linear forwards;
+	animation-play-state: paused;
+}
+
+@keyframes fadeInUp {
+	0% {
+		opacity: 0;
+		transform: translate3d(0,-20%,0);
+	}
+	100% {
+		opacity: 1;
+		transform: translate3d(0,0%,0);
+	}
+}
+
+.loading.finished {
+	opacity: 0;
+	visibility: hidden;
+}
